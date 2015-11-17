@@ -2,64 +2,95 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Matt's Beer Review </title>
+    <title>Matt's Beer Review</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/landing-page.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script src="{% static 'js/jquery.js' %}">
-    <script src="{% static 'js/bootstrap.min.js' %}">
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/landing-page.css" %}" rel="stylesheet">
+    <link href="{% static "font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
 
 
-</head>
 
-<body>
+
+  </head>
+
+  <body>
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-        <div class="container topnav">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand topnav" href=""/">Home</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
- <li><a href="#">Home</a></li>
+      <div class="container topnav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+       <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand topnav" href="/">Home</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Submit a Review!</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
- {% block home %}
-   <div class="content-section">
-     <div class="container">
-       {% block content %}
-     {% endblock %}
+    {% block home %}
+      <div class="content-section">
+        <div class="container">
+          {% block content %}
+          {% endblock %}
+        </div>
       </div>
+    {% endblock %}
+
+    <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <ul class="list-inline">
+                <li>
+                  <a href="#">Home</a>
+                </li>
+                <li class="footer-menu-divider">&sdot;</li>
+                <li>
+                  <a href="#about">About</a>
+                </li>
+                <li class="footer-menu-divider">&sdot;</li>
+                <li>
+                  <a href="#services">Services</a>
+                </li>
+                <li class="footer-menu-divider">&sdot;</li>
+                <li>
+                  <a href="#contact">Contact</a>
+                </li>
+              </ul>
+              <p class="copyright text-muted small">Copyright &copy; Matt's Beer Review 2015. All Rights Reserved</p>
+            </div>
+          </div>
       </div>
-      {% endblock %}
+    </footer>
 
 
 
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
+    <script src="{% static 'js/jquery.js' %}">
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+      <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}">
 
-</body>
+      </body>
 
-</html>
+      </html>
