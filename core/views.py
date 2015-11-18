@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from .models import *
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.views.generic import UpdateView
 # Create your views here.
 class Home(TemplateView):
     template_name = "home.html"
@@ -23,3 +24,7 @@ class ReviewListView(ListView):
 class ReviewDetailView(DetailView):
     model = Review
     template_name = 'review/review_detail.html'
+class ReviewUpdateView(UpdateView):
+    model = Review
+    template_name = 'review.review_form.html'
+    fields = ['title', 'review']

@@ -7,5 +7,6 @@ urlpatterns = patterns('',
     url(r'^user/', include('django.contrib.auth.urls')),
     url(r'^review/create/$', ReviewCreateView.as_view(), name='review_create'),
     url(r'review/$', ReviewListView.as_view(), name='review_list'),
-    url(r'^review/(?P<pk>/d+)/$', ReviewDetailView.as_view(), name='review_detail'),
+    url(r'^review/(?P<pk>\d+)/$', ReviewDetailView.as_view(), name='review_detail'),
+    url(r'^review/update/(?P<pk>\d+)/$', ReviewUpdateView.as_view(), name='review_update'),
 )   
