@@ -7,6 +7,7 @@ from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
+from django.core.exceptions import PermissionDenied
 # Create your views here.
 class Home(TemplateView):
     template_name = "home.html"
@@ -35,15 +36,25 @@ class ReviewUpdateView(UpdateView):
     model = Review
     template_name = 'review/review_form.html'
     fields = ['title', 'review']
+    def get_object(self, *args, **kwargs):
+        object = super(ReviewUpdateView, self).get_object(*args, **kwargs)
+        if object.user != self.request.user:
+          raise PermissionDenied()
+          return object
 class ReviewDeleteView(DeleteView):
     model = Review
     template_name = 'review/review_confirm_delete.html'
     sucess_url = reverse_lazy('review_list')
+    def get_object(self, *args, **kwargs):
+        object = super(ReviewDeleteView, self).get_object(*args, **kwargs)
+        if object.user !=self.request.user:
+            raise PermissionDenied()
+        return object
 class ReplyCreateView(CreateView):
     model = Reply
     template_name = "reply/reply_form.html"
     fields = ['text']
-    
+
     def get_success_url(self):
       return self.object.review.get_absolute_url()
 
@@ -56,17 +67,26 @@ class ReplyUpdateView(UpdateView):
     pk_url_kwarg = 'reply_pk'
     template_name = 'reply/reply_form.html'
     fields = ['text']
-    
+
     def get_success_url(self):
         return self.object.review.get_absolute_url()
-      
+    def get_object(self, *args, **kwargs):
+        object = super(AnswerUpdateView, self).get_object(*args, **kwargs)
+        if object.user != self.request.user:
+            raise PermissionDenied()
+        return object
+
 class ReplyDeleteView(DeleteView):
     model = Reply
     pk_url_kwarg = 'reply_pk'
     template_name = 'reply/reply_confirm_delete.html'
-    
+
     def get_success_url(self):
         return self.object.question.get_absolute_url()
-      
-             
-        
+    def get_object(self, *args, **kwargs):
+        object = super(ReplyDeleteView, self).get_object(*args, **kwargs)
+        if object.user != self.request.user:
+            raise PermissionDenied()
+        return object
+
+
