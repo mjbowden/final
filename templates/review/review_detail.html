@@ -20,5 +20,7 @@
   <p> Review by {{ reply.user.username }} on {{ reply.created_at }}</p>
 </div>
 {% endfor %}
-<p><a href="{% url 'reply_create' pk=question.id %}">Write reply</a></p>
+{% if not user_replies %}
+<p><a href="{% url 'reply_create' pk=review.id %}">Write reply</a></p>
+{% endif %}
 {% endblock %}

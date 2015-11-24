@@ -31,6 +31,8 @@ class ReviewDetailView(DetailView):
         review = Review.objects.get(id=self.kwargs['pk'])
         replies = Reply.objects.filter(review=review)
         context['replies'] = replies
+        user_replies = Reply.objects.filter(review=review, user=self.request.user)
+        context['user_replies'] = user_replies
         return context
 class ReviewUpdateView(UpdateView):
     model = Review
@@ -59,6 +61,9 @@ class ReplyCreateView(CreateView):
       return self.object.review.get_absolute_url()
 
     def form_valid(self, form):
+      review = Review.objects.get(id=self.kwargs['pk'])
+      if Reply.objects.filter(review=review, user=self.request.user).exists():
+          raise PermissionDenied()
       form.instance.user = self.request.user
       form.instance.review = Review.objects.get(id=self.kwargs['pk'])
       return super (ReplyCreateView, self).form_valid(form)
