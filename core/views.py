@@ -18,7 +18,7 @@ class Home(TemplateView):
 class ReviewCreateView(CreateView):
     model = Review
     template_name = "review/review_form.html"
-    fields = ['title', 'description']
+    fields = ['title', 'description', 'visibility']
     success_url = reverse_lazy('review_list')
 
     def form_valid(self, form):
@@ -60,7 +60,7 @@ class ReviewDeleteView(DeleteView):
 class ReplyCreateView(CreateView):
                   model = Reply
                   template_name = "reply/reply_form.html"
-                  fields = ['text']
+                  fields = ['text', 'visibility']
 
                   def get_success_url(self):
                     return self.object.review.get_absolute_url()
@@ -132,9 +132,9 @@ class UserDetailView(DetailView):
   def get_context_data(self, **kwargs):
     context = super(UserDetailView, self).get_context_data(**kwargs)
     user_in_view = User.objects.get(username=self.kwargs['slug'])
-    reviews = Review.objects.filter(user=user_in_view)
+    reviews = Review.objects.filter(user=user_in_view).exclude(visibility=1)
     context['reviews'] = reviews
-    replies = Reply.objects.filter(user=user_in_view)
+    replies = Reply.objects.filter(user=user_in_view).exclude(visibility=1)
     context['replies'] = replies
     return context
 class UserUpdateView(UpdateView):
