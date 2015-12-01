@@ -17,14 +17,23 @@
   <p><a href="{% url 'reply_update' review_pk=review.id reply_pk=reply.id %}">Edit reply</a></p>
   <p><a href="{% url 'reply_delete' review_pk=review.id reply_pk=reply.id %}">Delete reply</a></p>
   {% endif %}
-  <p>Answered {% if answer.visibility == 0 %} by <a href="{% url 'user_detail' slug=reply.user.username %}">{{ reply.user.username }}</a> {% endif %} on {{ reply.created_at }} ({{ reply.vote_set.all.count }} Vote{{ reply.vote_set.all.count|pluralize }})</p>
-  <form method= "post" action="{% url 'vote' %}">
-      {% csrf_token %}
-      <input type="hidden" name="reply" value="{{ reply.id}}" />
-      <input type="hidden" name="review" value="{{ review.id}}" />
-      <input type="hidden" name="user" value="{{ user.id}}" />
-    <button>+</button>
-  </form>
+  <p>Answered {% if answer.visibility == 0 %} by <a href="{% url 'user_detail' slug=answer.user.username %}">{{ answer.user.username }}</a> {% endif %} on {{ answer.created_at }}</p>
+<form method="post" action="{% url 'vote' %}">
+    <span class="badge">{{ answer.vote_set.all.count }} Vote{{  answer.vote_set.all.count|pluralize }}</span>
+    {% csrf_token %}
+    <input type="hidden" name="answer" value="{{ answer.id }}" />
+    <input type="hidden" name="question" value="{{ question.id }}" />
+    <input type="hidden" name="user" value="{{ user.id }}" />
+    {% if answer in user_votes %}  
+        <button class="btn btn-link">
+          <span class="glyphicon glyphicon-thumbs-down"></span>
+        </button>
+    {% else %}
+        <button class="btn btn-link">
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+        </button>
+    {% endif %}
+</form>
 </div>
 {% endfor %}
 {% if not user_replies %}
