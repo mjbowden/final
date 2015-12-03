@@ -125,3 +125,6 @@ LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = '/review/'
 SITE_ID = 1
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_STORAGE_BUCKET_NAME = 'matt-final'
+

@@ -18,7 +18,7 @@ class Home(TemplateView):
 class ReviewCreateView(CreateView):
     model = Review
     template_name = "review/review_form.html"
-    fields = ['title', 'description', 'visibility']
+    fields = ['title', 'description', 'visibility', 'image_file']
     success_url = reverse_lazy('review_list')
 
     def form_valid(self, form):
@@ -28,7 +28,7 @@ class ReviewListView(ListView):
       model = Review
       template_name = "review/review_list.html"
       paginate_by = 5
-      
+
       def get_context_data(self, **kwargs):
         context = super(ReviewListView, self).get_context_data(**kwargs)
         user_votes = Review.objects.filter(vote__user=self.request.user)
@@ -47,15 +47,17 @@ class ReviewDetailView(DetailView):
           user_replies = Reply.objects.filter(review=review, user=self.request.user)
           context['user_replies'] = user_replies
           return context
+
 class ReviewUpdateView(UpdateView):
           model = Review
           template_name = 'review/review_form.html'
-          fields = ['title', 'review']
+          fields = ['title', 'review', 'visibility', 'image_file']
           def get_object(self, *args, **kwargs):
             object = super(ReviewUpdateView, self).get_object(*args, **kwargs)
             if object.user != self.request.user:
               raise PermissionDenied()
               return object
+
 class ReviewDeleteView(DeleteView):
               model = Review
               template_name = 'review/review_confirm_delete.html'

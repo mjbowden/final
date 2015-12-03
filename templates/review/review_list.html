@@ -6,11 +6,11 @@
   <p>Asked {% if review.visibility == 0 %} by <a href="{% url 'user_detail' slug=review.user.username %}">{{ review.user.username }}</a> {% endif %} on {{ review.created_at }}</p>
   <form method="post" action="{% url 'vote' %}">
     <span class="badge">{{ question.answer_set.all.count }} Answer{{  question.answer_set.all.count|pluralize }}</span>
-    <span class="badge">{{ question.vote_set.all.count }} Vote{{ question.vote_set.all.count|pluralize }}</span> 
+    <span class="badge">{{ question.vote_set.all.count }} Vote{{ question.vote_set.all.count|pluralize }}</span>
     {% csrf_token %}
     <input type="hidden" name="question" value="{{ question.id }}" />
     <input type="hidden" name="user" value="{{ user.id }}" />
-        {% if question in user_votes %}  
+        {% if question in user_votes %}
         <button class="btn btn-link">
           <span class="glyphicon glyphicon-thumbs-down"></span>
         </button>
@@ -24,15 +24,15 @@
 {% empty %}
 <p>No results found.</p>
 {% endfor %}
-{& if is_paginated %}
+{% if is_paginated %}
 <nav>
     <ul class="pager">
       {% if page_obj.has_previous %}
       <li><a href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
       {% endif %}
-      {% if page_obj.has_next %
+      {% if page_obj.has_next %}
       <li><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
-      {% end if %}
+      {% endif %}
   </ul>
 </nav>
 {% endif %}

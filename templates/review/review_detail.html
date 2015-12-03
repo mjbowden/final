@@ -2,6 +2,7 @@
 {% block content %}
 <h1>{{ review.title }}</h1>
 <p>{{ review.description }}</p>
+<p>{% if review.image_file%<img src="{{ review.image_file.url }}" />{% endif %}</p>
 <p>Asked {% if review.visbility == 0 %} by <a href="{% url 'user_detail' slug=review.user.username %}'>{{ review.user.username }}</a> {% endif % on {{ review.created_at }}</p>
 {% if review.user == user %}
 <p><a href="{% url 'review_update' pk=question.id %}">Edit review</a></p>
@@ -24,7 +25,7 @@
     <input type="hidden" name="answer" value="{{ answer.id }}" />
     <input type="hidden" name="question" value="{{ question.id }}" />
     <input type="hidden" name="user" value="{{ user.id }}" />
-    {% if answer in user_votes %}  
+    {% if answer in user_votes %}
         <button class="btn btn-link">
           <span class="glyphicon glyphicon-thumbs-down"></span>
         </button>
