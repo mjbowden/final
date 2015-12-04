@@ -11,6 +11,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.views.generic import FormView
 from .forms import *
+from django.db.models import Avg
 # Create your views here.
 class Home(TemplateView):
   template_name = "home.html"
@@ -18,7 +19,7 @@ class Home(TemplateView):
 class ReviewCreateView(CreateView):
     model = Review
     template_name = "review/review_form.html"
-    fields = ['title', 'description', 'visibility', 'image_file']
+    fields = ['title', 'description', 'visibility']
     success_url = reverse_lazy('review_list')
 
     def form_valid(self, form):
@@ -46,12 +47,15 @@ class ReviewDetailView(DetailView):
           context['user_votes'] = user_votes
           user_replies = Reply.objects.filter(review=review, user=self.request.user)
           context['user_replies'] = user_replies
+          rating = Answer.objects.filter(review=review).aggregate(
+          Avg('rating'))
+          context['rating'] = rating
           return context
 
 class ReviewUpdateView(UpdateView):
           model = Review
           template_name = 'review/review_form.html'
-          fields = ['title', 'review', 'visibility', 'image_file']
+          fields = ['title', 'review', 'visibility']
           def get_object(self, *args, **kwargs):
             object = super(ReviewUpdateView, self).get_object(*args, **kwargs)
             if object.user != self.request.user:
@@ -70,7 +74,7 @@ class ReviewDeleteView(DeleteView):
 class ReplyCreateView(CreateView):
                   model = Reply
                   template_name = "reply/reply_form.html"
-                  fields = ['text', 'visibility']
+                  fields = ['text', 'visibility', 'rating']
 
                   def get_success_url(self):
                     return self.object.review.get_absolute_url()
@@ -86,12 +90,12 @@ class ReplyUpdateView(UpdateView):
                       model = Reply
                       pk_url_kwarg = 'reply_pk'
                       template_name = 'reply/reply_form.html'
-                      fields = ['text']
+                      fields = ['text', 'visibility', 'rating']
 
                       def get_success_url(self):
                         return self.object.review.get_absolute_url()
                       def get_object(self, *args, **kwargs):
-                        object = super(AnswerUpdateView, self).get_object(*args, **kwargs)
+                        object = super(ReplyUpdateView, self).get_object(*args, **kwargs)
                         if object.user != self.request.user:
                           raise PermissionDenied()
                           return object
